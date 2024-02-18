@@ -8,10 +8,10 @@ console.log("Hi mom");
 
 const port = 3000;
 
-app.get("/api/users/getUser", (req: Request, res: Response) => {
+app.get("/api/users/currentUser", (req: Request, res: Response) => {
   res.send("Hi mom :)");
 });
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on port ${port}!`);
 });
