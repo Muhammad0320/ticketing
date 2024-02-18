@@ -2,16 +2,16 @@ apiVersion: skaffold/v4beta3
 kind: Config
 manifests:
   rawYaml:
-    - ./infras/k8s/*
+    - ./infra/k8s/*
 build:
   local:
     push: false
   artifacts:
-    - image: muhammad0320/client
-      context: client
+    - image: muhammad0320/auth
+      context: auth
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: "src/**/*.js"
+          - src: "src/**/*.ts"
             dest: .
