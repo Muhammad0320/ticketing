@@ -6,8 +6,11 @@ manifests:
 build:
   local:
     push: false
+  googleCloudBuild:
+    projectId: innate-algebra-414708
+
   artifacts:
-    - image: muhammad0320/auth
+    - image: us.gcr.io/innate-algebra-414708/auth
       context: auth
       docker:
         dockerfile: Dockerfile
