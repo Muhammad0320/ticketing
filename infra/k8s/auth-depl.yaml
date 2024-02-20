@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: muhammad0320/auth
-
+          image: us.gcr.io/innate-algebra-414708/auth
 ---
 apiVersion: v1
 kind: Service
