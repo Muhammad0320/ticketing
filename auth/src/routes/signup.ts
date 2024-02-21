@@ -4,7 +4,7 @@ import { body } from "express-validator";
 
 const router = express.Router();
 
-router.get(
+router.post(
   "/signup",
   [
     body("email").isEmail().withMessage("Please provide a valid email"),
