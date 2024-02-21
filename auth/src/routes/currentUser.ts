@@ -6,4 +6,4 @@ router.get("/currentUser", (req: Request, res: Response) => {
   res.send("hi mom");
 });
 
-export { router as CurrentUserRouter };
+export { router as currentUserRouter };
