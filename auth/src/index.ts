@@ -6,12 +6,6 @@ app.use(express.json());
 
 console.log("Hi mom");
 
-console.log("Thnaks");
-
-app.get("/api/users/currentUser", (req: Request, res: Response) => {
-  res.send("Hi mom :)");
-});
-
 const port = 3000;
 
 app.listen(port, () => {
@@ -19,3 +13,5 @@ app.listen(port, () => {
 });
 
 // muhammawwal@1123
+
+export default app;
