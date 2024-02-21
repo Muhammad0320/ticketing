@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 
-import { body } from "express-validator";
+import { body, validationResult } from "express-validator";
 
 const router = express.Router();
 
@@ -14,7 +14,13 @@ router.post(
       .withMessage("password should contain at least 8 characters"),
   ],
   (req: Request, res: Response) => {
-    res.send("hi mom");
+    const error = validationResult(req);
+
+    if (!error.isEmpty()) {
+      return res.status(400).json(error.array());
+    }
+
+    console.log("creating user");
   }
 );
 
