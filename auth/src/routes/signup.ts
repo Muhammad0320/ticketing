@@ -19,12 +19,12 @@ router.post(
     const error = validationResult(req);
 
     if (!error.isEmpty()) {
-      return new RequestValidationError(error.array());
+      throw new RequestValidationError(error.array());
     }
 
-    return new DatabaseConnectionError("Unable to connect to db");
-
     console.log("creating user");
+
+    throw new DatabaseConnectionError("Unable to connect to db");
   }
 );
 
