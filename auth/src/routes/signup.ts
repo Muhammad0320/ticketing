@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 
 import { body, validationResult } from "express-validator";
+import { DatabaseConnectionError } from "../errors/DatabaseConnectionError";
+import { RequestValidationError } from "../errors/RequestValidationError";
 
 const router = express.Router();
 
@@ -17,8 +19,10 @@ router.post(
     const error = validationResult(req);
 
     if (!error.isEmpty()) {
-      return res.status(400).json(error.array());
+      return new RequestValidationError(error.array());
     }
+
+    return new DatabaseConnectionError("Unable to connect to db");
 
     console.log("creating user");
   }
