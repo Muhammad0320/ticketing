@@ -24,7 +24,7 @@ router.post(
 
     console.log("creating user");
 
-    throw new DatabaseConnectionError("Unable to connect to db");
+    throw new DatabaseConnectionError();
   }
 );
 
