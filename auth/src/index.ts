@@ -3,6 +3,7 @@ import { currentUserRouter } from "./routes/currentUser";
 import { signupRouter } from "./routes/signup";
 import { signoutRouter } from "./routes/signout";
 import { signinRouter } from "./routes/signin";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(rootUserUrl, signupRouter);
 app.use(rootUserUrl, signinRouter);
 app.use(rootUserUrl, signoutRouter);
 app.use(rootUserUrl, currentUserRouter);
+app.use(errorHandler);
 
 const port = 3000;
 
