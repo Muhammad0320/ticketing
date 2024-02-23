@@ -19,7 +19,7 @@ app.use(rootUserUrl, signupRouter);
 app.use(rootUserUrl, signinRouter);
 app.use(rootUserUrl, signoutRouter);
 
-app.all("*", () => {
+app.all("*", (req, res) => {
   throw new NotFound();
 });
 
