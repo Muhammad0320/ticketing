@@ -12,7 +12,7 @@ export const errorHandler = (
     // const f = err.errors.map(error => { message: error.msg, field: '' } )
 
     return res
-      .status(400)
+      .status(err.statusCode)
       .json({ status: "fail", errors: err.serializeError() });
   }
 
