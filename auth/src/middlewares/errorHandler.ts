@@ -9,22 +9,15 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (err instanceof RequestValidationError) {
-    const formattedErrors = err.errors.map((error) => {
-      if (error.type === "field") {
-        return {
-          message: error.msg,
-          field: error.path,
-        };
-      }
-    });
-
     // const f = err.errors.map(error => { message: error.msg, field: '' } )
 
-    return res.status(400).json({ status: "fail", errors: formattedErrors });
+    return res
+      .status(400)
+      .json({ status: "fail", errors: err.serializeError() });
   }
 
   if (err instanceof DatabaseConnectionError) {
-    return res.status(500).send({ errors: [{ message: err.reasons }] });
+    return res.status(500).send({ errors: err.serializeError() });
   }
 
   return res.status(400).json({ message: "something went very wrong" });
