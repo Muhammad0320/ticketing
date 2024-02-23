@@ -1,9 +1,11 @@
 import express from "express";
+import "express-async-errors";
 import { currentUserRouter } from "./routes/currentUser";
 import { signupRouter } from "./routes/signup";
 import { signoutRouter } from "./routes/signout";
 import { signinRouter } from "./routes/signin";
 import { errorHandler } from "./middlewares/errorHandler";
+import { NotFound } from "./errors/NotFound";
 
 const app = express();
 
@@ -16,6 +18,11 @@ const rootUserUrl = "/api/users";
 app.use(rootUserUrl, signupRouter);
 app.use(rootUserUrl, signinRouter);
 app.use(rootUserUrl, signoutRouter);
+
+app.all("*", () => {
+  throw new NotFound();
+});
+
 app.use(rootUserUrl, currentUserRouter);
 app.use(errorHandler);
 
