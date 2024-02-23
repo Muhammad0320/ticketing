@@ -1,11 +1,11 @@
 import express from "express";
 import "express-async-errors";
-import { currentUserRouter } from "./routes/currentUser";
-import { signupRouter } from "./routes/signup";
-import { signoutRouter } from "./routes/signout";
-import { signinRouter } from "./routes/signin";
-import { errorHandler } from "./middlewares/errorHandler";
 import { NotFound } from "./errors/NotFound";
+import { signupRouter } from "./routes/signup";
+import { signinRouter } from "./routes/signin";
+import { signoutRouter } from "./routes/signout";
+import { currentUserRouter } from "./routes/currentUser";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
