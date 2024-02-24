@@ -6,6 +6,7 @@ import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { currentUserRouter } from "./routes/currentUser";
 import { errorHandler } from "./middlewares/errorHandler";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -29,9 +30,21 @@ app.use(errorHandler);
 
 const port = 3000;
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}!`);
-});
+const start = async () => {
+  try {
+    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+
+    console.log("Connected to mongoDB");
+
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}!`);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+start();
 
 // muhammawwal@1123
 
