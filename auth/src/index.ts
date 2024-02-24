@@ -19,11 +19,12 @@ app.use(rootUserUrl, signupRouter);
 app.use(rootUserUrl, signinRouter);
 app.use(rootUserUrl, signoutRouter);
 
+app.use(rootUserUrl, currentUserRouter);
+
 app.all("*", (req, res) => {
   throw new NotFound();
 });
 
-app.use(rootUserUrl, currentUserRouter);
 app.use(errorHandler);
 
 const port = 3000;
