@@ -21,10 +21,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model<any, UserModel>("user", userSchema);
-
 userSchema.statics.buildUser = (attrs: UserType) => {
   return new User({ email: attrs.email, password: attrs.password });
 };
+
+const User = mongoose.model<any, UserModel>("user", userSchema);
 
 export { User };
