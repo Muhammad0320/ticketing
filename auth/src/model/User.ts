@@ -8,7 +8,7 @@ interface UserType {
 type UserDoc = mongoose.Document & UserType;
 
 interface UserModel extends mongoose.Model<UserDoc> {
-  buildUser(attrs: UserType): UserDoc;
+  buildUser(attrs: UserType): Promise<UserDoc>;
 }
 
 const userSchema = new mongoose.Schema({
@@ -23,10 +23,15 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.buildUser = (attrs: UserType) => {
-  return new User({ email: attrs.email, password: attrs.password });
+userSchema.statics.buildUser = async (attrs: UserType) => {
+  const user = await User.create({
+    email: attrs.email,
+    password: attrs.password,
+  });
+
+  return user;
 };
 
-const User = mongoose.model<any, UserModel>("User", userSchema);
+const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
 export { User };
