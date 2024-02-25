@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Password } from "../services/password";
 
 interface UserType {
   email: string;
@@ -21,6 +22,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a password"],
   },
+});
+
+userSchema.pre("save", async function (next) {
+  if (this.isModified()) this.password = await Password.hash(this.password);
+
+  next();
 });
 
 userSchema.statics.buildUser = async (attrs: UserType) => {
