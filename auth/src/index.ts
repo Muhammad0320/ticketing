@@ -8,9 +8,15 @@ import { currentUserRouter } from "./routes/currentUser";
 import { errorHandler } from "./middlewares/errorHandler";
 import mongoose from "mongoose";
 
+import cookieSession from "cookie-session";
+
 const app = express();
 
+app.set("trust proxy", true);
+
 app.use(express.json());
+
+app.use(cookieSession({ httpOnly: true, signed: false, secure: true }));
 
 console.log("Hi mom");
 
