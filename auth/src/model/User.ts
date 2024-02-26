@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
 
-interface UserType {
+export interface UserType {
   email: string;
   password: string;
 }
 
-type UserDoc = mongoose.Document & UserType;
+export type UserDoc = mongoose.Document & UserType;
 
 interface UserModel extends mongoose.Model<UserDoc> {
   buildUser(attrs: UserType): Promise<UserDoc>;

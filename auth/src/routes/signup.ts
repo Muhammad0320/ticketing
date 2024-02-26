@@ -3,8 +3,10 @@ import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 
 import { RequestValidationError } from "../errors/RequestValidationError";
-import { User } from "../model/User";
+import { User, UserType } from "../model/User";
 import { BadRequestError } from "../errors/BadRequestError";
+import jwt from "jsonwebtoken";
+import { Password } from "../services/password";
 
 const router = express.Router();
 
@@ -24,7 +26,7 @@ router.post(
       throw new RequestValidationError(error.array());
     }
 
-    const { email, password } = req.body;
+    const { email, password }: UserType = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -33,6 +35,19 @@ router.post(
         "This email is in use, Please try with a different email"
       );
     }
+
+    const user = await User.buildUser({ email, password });
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      "my-super-secure-and-ultra-long-secret-string-for-jwt"
+    );
+
+    req.cookies = {
+      jwt: token,
+    };
+
+    res.status(201).json({ status: "success", user });
   }
 );
 
