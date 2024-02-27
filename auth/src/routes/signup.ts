@@ -6,7 +6,6 @@ import { RequestValidationError } from "../errors/RequestValidationError";
 import { User, UserType } from "../model/User";
 import { BadRequestError } from "../errors/BadRequestError";
 import jwt from "jsonwebtoken";
-import { Password } from "../services/password";
 
 const router = express.Router();
 
