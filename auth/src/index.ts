@@ -37,7 +37,7 @@ app.use(errorHandler);
 const port = 3000;
 
 const start = async () => {
-  if (!process.env.JWT_SECRET) {
+  if (!process.env.JWT_KEY) {
     throw new Error("No jwt_secrect found");
   }
 
