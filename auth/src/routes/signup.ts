@@ -39,7 +39,7 @@ router.post(
 
     const token = jwt.sign(
       { id: user.id, email: user.email },
-      "my-super-secure-and-ultra-long-secret-string-for-jwt"
+      process.env.JWT_KEY!
     );
 
     req.cookies = {
