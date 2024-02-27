@@ -6,6 +6,7 @@ import { RequestValidationError } from "../errors/RequestValidationError";
 import { User, UserType } from "../model/User";
 import { BadRequestError } from "../errors/BadRequestError";
 import jwt from "jsonwebtoken";
+import { requestValidator } from "../middlewares/requestValidator";
 
 const router = express.Router();
 
@@ -18,13 +19,10 @@ router.post(
       .isLength({ min: 8, max: 20 })
       .withMessage("password should contain at least 8 characters"),
   ],
+
+  requestValidator,
+
   async (req: Request, res: Response) => {
-    const error = validationResult(req);
-
-    if (!error.isEmpty()) {
-      throw new RequestValidationError(error.array());
-    }
-
     const { email, password }: UserType = req.body;
 
     const existingUser = await User.findOne({ email });
