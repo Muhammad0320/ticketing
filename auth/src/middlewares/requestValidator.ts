@@ -8,4 +8,6 @@ export const requestValidator = (req: Request, _: any, next: NextFunction) => {
   if (!errors.isEmpty()) {
     throw new RequestValidationError(errors.array());
   }
+
+  next();
 };
