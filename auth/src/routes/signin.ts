@@ -1,5 +1,9 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { requestValidator } from "../middlewares/requestValidator";
+import { User, UserType } from "../model/User";
+import { BadRequestError } from "../errors/BadRequestError";
+import { Password } from "../services/password";
 
 const router = express.Router();
 
@@ -10,7 +14,29 @@ router.post(
 
     body("password").trim().isEmpty().withMessage("Please supply a password"),
   ],
-  (req: Request, res: Response) => {}
+
+  requestValidator,
+
+  async (req: Request, res: Response) => {
+    const { email, password }: UserType = req.body;
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      throw new BadRequestError("Invalid signin credentials");
+    }
+
+    const isCorrectPassword = await Password.compare(
+      existingUser.password,
+      password
+    );
+
+    if (!isCorrectPassword) {
+      throw new BadRequestError("Invalid login credentials");
+    }
+
+    res.status(200).json({ status: "success", user: existingUser });
+  }
 );
 
 export { router as signinRouter };
