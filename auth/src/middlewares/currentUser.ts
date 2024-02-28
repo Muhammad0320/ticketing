@@ -6,6 +6,14 @@ interface UserPayload {
   email: string;
 }
 
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser: UserPayload;
+    }
+  }
+}
+
 export const currentUser = (
   req: Request,
   res: Response,
@@ -20,6 +28,8 @@ export const currentUser = (
       req.session.jwt,
       process.env.JWT_KEY!
     ) as UserPayload;
+
+    req.currentUser = payload;
   } catch (error) {}
 
   next();
