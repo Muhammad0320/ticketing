@@ -37,7 +37,7 @@ router.post(
       process.env.JWT_KEY!
     );
 
-    req.cookies = {
+    req.session = {
       jwt: token,
     };
 
