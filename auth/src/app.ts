@@ -32,3 +32,5 @@ app.all("*", (req, res) => {
 });
 
 app.use(errorHandler);
+
+export { app };
