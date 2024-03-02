@@ -12,3 +12,12 @@ it("responds with details about current user", async () => {
 
   expect(response.body.currentUser.email).toEqual("foo@example.com");
 });
+
+it("responds with null for unauthenticated user", async () => {
+  const response = await supertest(app)
+    .get("/api/users/currentUser")
+    .send()
+    .expect(400);
+
+  expect(response.body.currentUser).toEqual(null);
+});
