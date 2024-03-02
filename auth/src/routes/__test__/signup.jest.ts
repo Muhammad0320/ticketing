@@ -45,7 +45,7 @@ it("disallows duplicate emails", async () => {
     .expect(400);
 });
 
-it("sets cookie to the header", async () => {
+it("sets cookie to the header when user successfully signup", async () => {
   const response = await supertest(app)
     .post("/api/users/signup")
     .send({ email: "foo@example.com", password: "passwords" })
