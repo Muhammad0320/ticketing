@@ -16,8 +16,18 @@ it("returns 400 on invalid email", async () => {
 });
 
 it("returns 400 on invalid password", async () => {
-  return await supertest(app)
+  return supertest(app)
     .post("/api/users/signup")
     .send({ email: "test@example.com", password: "p" })
     .expect(400);
+});
+
+it("returns 400 on missing email or password", async () => {
+  await supertest(app)
+    .post("/api/users/signup")
+    .send({ email: "test@example.com" });
+
+  await supertest(app)
+    .post("/api/users/signup")
+    .send({ password: "passwords" });
 });
