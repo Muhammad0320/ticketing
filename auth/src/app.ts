@@ -14,7 +14,13 @@ app.set("trust proxy", true);
 
 app.use(express.json());
 
-app.use(cookieSession({ httpOnly: true, signed: false, secure: true }));
+app.use(
+  cookieSession({
+    httpOnly: true,
+    signed: false,
+    secure: process.env.NODE_ENV !== "test",
+  })
+);
 
 console.log("Hi mom");
 
