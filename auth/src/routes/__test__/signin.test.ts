@@ -19,3 +19,17 @@ it("returns 400 in invalid password", async () => {
     .send({ email: "foo@example.com", password: "shittttttt" })
     .expect(400);
 });
+
+it("set a cookie when user successfully signups", async () => {
+  await supertest(app)
+    .post("api/users/signup")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(201);
+
+  const response = await supertest(app)
+    .post("api/users/signin")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(200);
+
+  expect(response.get("Set-Cookie")).toBeDefined();
+});
