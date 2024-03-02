@@ -44,3 +44,12 @@ it("disallows duplicate emails", async () => {
     .send({ email: "foo@example.com", password: "passwords" })
     .expect(400);
 });
+
+it("sets cookie to the header", async () => {
+  const response = await supertest(app)
+    .post("/api/users/signup")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(201);
+
+  expect(response.get("Set-Cookie")).toBeDefined();
+});
