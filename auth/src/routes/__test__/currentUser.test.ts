@@ -7,6 +7,7 @@ it("responds with details about current user", async () => {
   const response = await supertest(app)
     .get("/api/users/currentUser")
     .set("Cookie", cookie)
+    .send()
     .expect(200);
 
   expect(response.body.currentUser.email).toEqual("foo@example.com");
