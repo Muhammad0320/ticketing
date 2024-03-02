@@ -25,9 +25,22 @@ it("returns 400 on invalid password", async () => {
 it("returns 400 on missing email or password", async () => {
   await supertest(app)
     .post("/api/users/signup")
-    .send({ email: "test@example.com" });
+    .send({ email: "test@example.com" })
+    .expect(400);
 
   await supertest(app)
     .post("/api/users/signup")
-    .send({ password: "passwords" });
+    .send({ password: "passwords" })
+    .expect(400);
+});
+
+it("disallows duplicate emails", async () => {
+  await supertest(app)
+    .post("/api/users/signup")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(201);
+  await supertest(app)
+    .post("/api/users/signup")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(400);
 });
