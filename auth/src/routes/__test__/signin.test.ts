@@ -7,3 +7,15 @@ it("returns 400 on invalid email", async () => {
     .send({ email: "test@example.com", password: "password" })
     .expect(400);
 });
+
+it("returns 400 in invalid password", async () => {
+  await supertest(app)
+    .post("api/users/signup")
+    .send({ email: "foo@example.com", password: "passwords" })
+    .expect(201);
+
+  await supertest(app)
+    .post("api/users/signin")
+    .send({ email: "foo@example.com", password: "shittttttt" })
+    .expect(400);
+});
