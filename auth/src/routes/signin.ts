@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { body } from "express-validator";
 import { requestValidator } from "../middlewares/requestValidator";
 import { User, UserType } from "../model/User";
@@ -34,6 +35,15 @@ router.post(
     if (!isCorrectPassword) {
       throw new BadRequestError("Invalid login credentials");
     }
+
+    const userJwt = jwt.sign(
+      { id: existingUser.id, email: existingUser.email },
+      process.env.JWT_KEY!
+    );
+
+    req.session = {
+      jwt: userJwt,
+    };
 
     res.status(200).json({ status: "success", user: existingUser });
   }
