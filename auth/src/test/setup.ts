@@ -18,3 +18,11 @@ beforeEach(async () => {
     await collection.deleteMany({});
   }
 });
+
+afterAll(async () => {
+  if (mongo) {
+    await mongo.stop();
+  }
+
+  await mongoose.connection.close();
+});
