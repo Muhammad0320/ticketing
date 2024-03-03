@@ -1,5 +1,5 @@
 module.exports = {
-  webpackDevMiddleware: (config) => {
+  webpack: (config) => {
     config.watchOptions.poll = 3000;
     return config;
   },
