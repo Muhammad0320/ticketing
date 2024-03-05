@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "del ./build/*",
+    "clean": "del /S /Q .\\build\\*",
     "build": "npm run clean && tsc"
   },
   "keywords": [],
