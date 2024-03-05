@@ -1,15 +1,13 @@
 console.log("Hi mum");
 
-interface Colors {
-  red: number;
-  blue: number;
-  green: number;
-}
+import * as BadRequestError from "../errors/BadRequestError";
+import * as CustomError from "../errors/CustomError";
+import * as DatabaseConnectionError from "../errors/DatabaseConnectionError";
+import * as RequestValidationError from "../errors/RequestValidationError";
+import * as NotFound from "../errors/NotFound";
+import * as NotAuthorized from "../errors/NotAuthorized";
 
-const colors: Colors = {
-  red: 23,
-  green: 23,
-  blue: 82,
-};
-
-export default colors;
+import * as currentUser from "../middlewares/currentUser";
+import * as errorHandler from "../middlewares/errorHandler";
+import * as requireAuth from "../middlewares/requireAuth";
+import * as requestValidator from "../middlewares/requestValidator";
