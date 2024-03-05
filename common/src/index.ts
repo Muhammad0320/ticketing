@@ -12,4 +12,4 @@ const colors: Colors = {
   blue: 82,
 };
 
-console.log(colors);
+export default colors;
