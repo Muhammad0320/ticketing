@@ -8,7 +8,9 @@ it("has a route handler of /api/tickets listening for post request", async () =>
   expect(response.statusCode).not.toEqual(404);
 });
 
-it("can only be accessed when the user is logged in", async () => {});
+it("can only be accessed when the user is logged in", async () => {
+  await supertest(app).post(`/api/tickets`).send({}).expect(401);
+});
 
 it("return as error if invalid title is provided", async () => {});
 
