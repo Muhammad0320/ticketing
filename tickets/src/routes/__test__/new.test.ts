@@ -12,6 +12,12 @@ it("can only be accessed when the user is logged in", async () => {
   await supertest(app).post(`/api/tickets`).send({}).expect(401);
 });
 
+it("returns status other than 401 if user is authenicated", async () => {
+  const response = await supertest(app).post(`/api/tickets`).send({});
+
+  expect(response.status).not.toEqual(401);
+});
+
 it("return as error if invalid title is provided", async () => {});
 
 it("return as error if invalid price is provided", async () => {});
