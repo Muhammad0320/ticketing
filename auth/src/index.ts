@@ -7,8 +7,12 @@ const start = async () => {
     throw new Error("No jwt key found");
   }
 
+  if (!process.env.MONGO_URI) {
+    throw new Error("No mongo uri found");
+  }
+
   try {
-    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    await mongoose.connect(process.env.MONGO_URI);
 
     console.log("Connected to mongoDB");
   } catch (err) {
