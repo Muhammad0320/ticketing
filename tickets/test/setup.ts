@@ -1,7 +1,7 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import supertest from "supertest";
-import { app } from "../app";
+import { app } from "../src/app";
 
 declare global {
   var signin: () => Promise<string[]>;
