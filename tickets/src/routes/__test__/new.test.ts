@@ -21,7 +21,19 @@ it("returns status other than 401 if user is authenicated", async () => {
   expect(response.status).not.toEqual(401);
 });
 
-it("return as error if invalid title is provided", async () => {});
+it("return as error if invalid title is provided", async () => {
+  await supertest(app)
+    .post("/api/tickets")
+    .set("Cookie", global.signin())
+    .send({ title: "", price: 94 })
+    .expect(400);
+
+  await supertest(app)
+    .post("/api/tickets")
+    .set("Cookie", global.signin())
+    .send({ price: 94 })
+    .expect(400);
+});
 
 it("return as error if invalid price is provided", async () => {});
 
