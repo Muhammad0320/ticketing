@@ -54,5 +54,5 @@ it("creates a tickets with valid inputs", async () => {
     .post("/api/tickets")
     .set("Cookie", global.signin())
     .send({ title: "fnmifjei", price: 99 })
-    .expect(200);
+    .expect(201);
 });
