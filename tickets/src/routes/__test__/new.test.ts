@@ -13,7 +13,10 @@ it("can only be accessed when the user is logged in", async () => {
 });
 
 it("returns status other than 401 if user is authenicated", async () => {
-  const response = await supertest(app).post(`/api/tickets`).send({});
+  const response = await supertest(app)
+    .post(`/api/tickets`)
+    .set("Cookie", global.signin())
+    .send({});
 
   expect(response.status).not.toEqual(401);
 });
