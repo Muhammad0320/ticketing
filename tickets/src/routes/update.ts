@@ -37,7 +37,7 @@ router.put(
   tickets.set({ 
 
     title: req.body.title,
-    price: reqq.body.price
+    price: req.body.price
 
    })
 
