@@ -1,4 +1,9 @@
-import { NotAuthorized, NotFound, requireAuth } from "@m0ticketing/common";
+import {
+  NotAuthorized,
+  NotFound,
+  requestValidator,
+  requireAuth,
+} from "@m0ticketing/common";
 import express, { Request, Response } from "express";
 import { Ticket } from "../../model/tickets";
 import { body } from "express-validator";
@@ -14,6 +19,8 @@ router.put(
       .isFloat({ gt: 0 })
       .withMessage("Please provide a price thats greater than 0"),
   ],
+
+  requestValidator,
   async (req: Request, res: Response) => {
     const tickets = await Ticket.findById(req.params.id); //
 
