@@ -32,6 +32,25 @@ router.put(
       throw new NotAuthorized();
     }
   }
+
+  
+  tickets.set({ 
+
+    title: req.body.title,
+    price: reqq.body.price
+
+   })
+
+   await tickets.save() 
+
+
+   res.status(200).json({ tickets }) 
+
 );
+
+
+
+
+
 
 export { router as updateTicketRouter };
