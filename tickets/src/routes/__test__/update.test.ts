@@ -68,3 +68,28 @@ it("returns a 400 if the input are invalid", async () => {
     .send({ title: "vjnjv" })
     .expect(400);
 });
+
+it("returns a 200 when everrything is valid", async () => {
+  const cookie = global.signin();
+
+  const response = await supertest(app)
+    .post("/api/ticket")
+    .set("Cookie", cookie)
+    .send({ title: "nrjvnrjvbr", price: 40 })
+    .expect(201);
+
+  await supertest(app)
+    .put(`/api/ticket/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({ title: "new ticket", price: 99 })
+    .expect(200);
+
+  const ticketResponse = await supertest(app)
+    .get(`/api/tickets/${response.body.id}`)
+    .send({})
+    .expect(200);
+
+  expect(ticketResponse.body.title).toEqual("new ticket");
+
+  expect(ticketResponse.body.price).toEqual(99);
+});
