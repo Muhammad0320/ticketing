@@ -20,3 +20,19 @@ it("return a 401, if the user is nit authroized", async () => {
     .send({ title: "nrjvnrjvbr", price: 23 })
     .expect(401);
 });
+
+it("returns a 401, if user does not own the ticket", async () => {
+  const response = await supertest(app)
+    .post("/api/ticket")
+    .set("Cookie", global.signin())
+    .send({ title: "nrjvnrjvbr", price: 40 })
+    .expect(201);
+
+  const updateResponse = await supertest(app)
+    .put(`/api/ticket${response.body.id}`)
+    .set("Cookie", global.signin())
+    .send({ title: "nrnri", price: 20 })
+    .expect(401);
+
+  expect(updateResponse.body.title).toEqual("nrjvnrjvbr");
+});
