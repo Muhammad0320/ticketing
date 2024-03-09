@@ -8,3 +8,5 @@ router.get("/", async (req: Request, res: Response) => {
 
   res.status(200).json({ status: "success", tickets });
 });
+
+export { router as indexRouter };
