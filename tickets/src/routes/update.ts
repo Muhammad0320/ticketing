@@ -31,26 +31,16 @@ router.put(
     if (tickets.userId !== req.currentUser.id) {
       throw new NotAuthorized();
     }
+
+    tickets.set({
+      title: req.body.title,
+      price: req.body.price,
+    });
+
+    await tickets.save();
+
+    res.status(200).json({ tickets });
   }
-
-  
-  tickets.set({ 
-
-    title: req.body.title,
-    price: req.body.price
-
-   })
-
-   await tickets.save() 
-
-
-   res.status(200).json({ tickets }) 
-
 );
-
-
-
-
-
 
 export { router as updateTicketRouter };
