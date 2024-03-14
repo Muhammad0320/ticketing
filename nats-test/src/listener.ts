@@ -8,7 +8,10 @@ const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
 stan.on("connect", () => {
   console.log("Listener connected to NATS");
 
-  const subscription = stan.subscribe("ticket:created");
+  const subscription = stan.subscribe(
+    "ticket:created",
+    "OrderServiceQueueGroup"
+  );
 
   subscription.on("message", (msg: Message) => {
     const data = msg.getData();
