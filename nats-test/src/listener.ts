@@ -8,6 +8,12 @@ const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
 stan.on("connect", () => {
   console.log("Listener connected to NATS");
 
+  stan.on("close", () => {
+    console.log("NATS connection close!");
+
+    process.exit();
+  });
+
   const options = stan.subscriptionOptions().setManualAckMode(true);
 
   const subscription = stan.subscribe(
