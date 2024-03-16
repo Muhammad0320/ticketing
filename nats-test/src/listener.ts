@@ -87,3 +87,15 @@ export abstract class Listener {
       : JSON.parse(data.toString("utf8"));
   }
 }
+
+class TickedCreatedListener extends Listener {
+  subjects = "ticket:created";
+
+  queueGroupName = "paymentService";
+
+  onMesage(data: any, msg: nats.Message): void {
+    console.log(`Event recieved!: ${data}`);
+
+    msg.ack();
+  }
+}
