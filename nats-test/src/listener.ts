@@ -61,11 +61,25 @@ export abstract class Listener {
       .setDurableName(this.queueGroupName);
   }
 
-  subscribe() {
-    return this.client.subscribe(
+  listen() {
+    const subscription = this.client.subscribe(
       this.subjects,
       this.queueGroupName,
       this.subsciptionOptions()
     );
+
+    subscription.on("message", (msg: Message) => {
+      console.log(
+        `Message recieved ${this.subjects} / ${this.queueGroupName}  `
+      );
+    });
+  }
+
+  parseMessage(msg: Message) {
+    const data = msg.getData();
+
+    return typeof data === "string"
+      ? JSON.parse(data)
+      : JSON.parse(data.toString("utf8"));
   }
 }
