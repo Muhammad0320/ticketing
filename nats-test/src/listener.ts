@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import nats, { Message } from "node-nats-streaming";
+import nats, { Message, Stan } from "node-nats-streaming";
 
 const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
@@ -38,3 +38,24 @@ stan.on("connect", () => {
 
 process.on("SIGINT", () => stan.close());
 process.on("SIGTERM", () => stan.close());
+
+abstract class Listener {
+  private client: Stan;
+
+  protected ackWait: number = 5 * 1000;
+
+  private queueGroupName: string = "";
+
+  constructor(client: Stan) {
+    this.client = client;
+  }
+
+  subsciptionOptions() {
+    return this.client
+      .subscriptionOptions()
+      .setDeliverAllAvailable()
+      .setManualAckMode(true)
+      .setAckWait(this.ackWait)
+      .setDurableName(this.queueGroupName);
+  }
+}
