@@ -60,4 +60,12 @@ export abstract class Listener {
       .setAckWait(this.ackWait)
       .setDurableName(this.queueGroupName);
   }
+
+  subscribe() {
+    return this.client.subscribe(
+      this.subjects,
+      this.queueGroupName,
+      this.subsciptionOptions()
+    );
+  }
 }
