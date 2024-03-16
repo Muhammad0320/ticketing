@@ -72,6 +72,10 @@ export abstract class Listener {
       console.log(
         `Message recieved ${this.subjects} / ${this.queueGroupName}  `
       );
+
+      const message = this.parseMessage(msg); //
+
+      this.onMesage(message, msg);
     });
   }
 
