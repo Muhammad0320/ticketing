@@ -14,26 +14,7 @@ stan.on("connect", () => {
     process.exit();
   });
 
-  const options = stan
-    .subscriptionOptions()
-    .setManualAckMode(true)
-    .setDeliverAllAvailable()
-    .setDurableName("orderService");
-
-  const subscription = stan.subscribe(
-    "ticket:created",
-    "OrderServiceQueueGroup",
-    options
-  );
-
-  subscription.on("message", (msg: Message) => {
-    const data = msg.getData();
-
-    typeof data === "string" &&
-      console.log(`Event #${msg.getSequence()} received with data : ${data} `);
-
-    msg.ack();
-  });
+  new TickedCreatedListener(stan).listen();
 });
 
 process.on("SIGINT", () => stan.close());
