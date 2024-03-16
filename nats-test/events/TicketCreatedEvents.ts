@@ -1,7 +1,7 @@
 import { Subjects } from "./subjects";
 
 export interface TickeetCreatedEvent {
-  Subjects: Subjects.TicketCreated;
+  subjects: Subjects.TicketCreated;
 
   data: {
     id: string;
