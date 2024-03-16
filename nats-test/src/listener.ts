@@ -39,9 +39,11 @@ stan.on("connect", () => {
 process.on("SIGINT", () => stan.close());
 process.on("SIGTERM", () => stan.close());
 
-abstract class Listener {
-  abstract queueGroupName: string;
+export abstract class Listener {
   abstract subjects: string;
+  abstract queueGroupName: string;
+  abstract onMesage(data: any, msg: Message): void;
+
   private client: Stan;
 
   protected ackWait: number = 5 * 1000;
