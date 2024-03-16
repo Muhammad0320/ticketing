@@ -40,11 +40,11 @@ process.on("SIGINT", () => stan.close());
 process.on("SIGTERM", () => stan.close());
 
 abstract class Listener {
+  abstract queueGroupName: string;
+  abstract subjects: string;
   private client: Stan;
 
   protected ackWait: number = 5 * 1000;
-
-  private queueGroupName: string = "";
 
   constructor(client: Stan) {
     this.client = client;
