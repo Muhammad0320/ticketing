@@ -13,10 +13,4 @@ stan.on("connect", async () => {
   const publish = new TickerCreatedPublisher(stan);
 
   await publish.publish({ id: "123", title: "concert", price: 20 });
-
-  //   const data = JSON.stringify({ id: "123", title: "concert", price: 20 });
-
-  //   stan.publish("ticket:created", data, () => {
-  //     console.log("Event published");
-  //   });
 });
