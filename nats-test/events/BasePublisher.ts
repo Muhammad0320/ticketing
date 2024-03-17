@@ -15,9 +15,17 @@ export abstract class BasePublisher<T extends Events> {
     this.client = client;
   }
 
-  publish(data: T["data"]) {
-    this.client.publish(this.subjects, JSON.stringify(data), () => {
-      console.log(`Sussessfully published ${this.subjects} Events`);
+  async publish(data: T["data"]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.client.publish(this.subjects, JSON.stringify(data), (err) => {
+        if (err) {
+          reject(err);
+        }
+
+        console.log(`Sussessfully published ${this.subjects} Events`);
+      });
+
+      resolve();
     });
   }
 }
