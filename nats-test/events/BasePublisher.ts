@@ -7,7 +7,7 @@ interface Events {
 }
 
 export abstract class BasePublisher<T extends Events> {
-  abstract subjects: Subjects;
+  abstract subjects: T["subjects"];
 
   private client: Stan;
 
@@ -15,9 +15,9 @@ export abstract class BasePublisher<T extends Events> {
     this.client = client;
   }
 
-  publish(subject: T["subjects"], data: T["data"]) {
-    this.client.publish(subject, data, () => {
-      console.log(`Sussessfully published ${subject} Events`);
+  publish(data: T["data"]) {
+    this.client.publish(this.subjects, data, () => {
+      console.log(`Sussessfully published ${this.subjects} Events`);
     });
   }
 }
