@@ -1,7 +1,7 @@
 import { Message } from "node-nats-streaming";
-import { Listener } from "./baseListener";
-import { TicketCreatedEvent } from "./TicketCreatedEvents";
-import { Subjects } from "./subjects";
+import { Listener } from "../../common/src/events/BaseListener";
+import { TicketCreatedEvent } from "../../common/src/events/TicketCreatedEvents";
+import { Subjects } from "../../common/src/events/subjects";
 
 export class TickedCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subjects = Subjects.TicketCreated;
