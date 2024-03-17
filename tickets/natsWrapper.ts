@@ -15,7 +15,7 @@ class NatsWrapper {
       });
 
       this._client!.on("error", (error: any) => {
-        console.log("Unable to connect to NATS");
+        console.log("Unable to connect to NATS ");
 
         reject(error);
       });
