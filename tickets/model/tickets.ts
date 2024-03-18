@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { UserDoc } from "../../auth/src/model/User";
 
 interface TicketsAttrs {
   userId: string;
@@ -14,7 +13,7 @@ interface TicketsDoc extends mongoose.Document {
 }
 
 interface TicketModel extends mongoose.Model<TicketsDoc> {
-  buildTickets(attrs: TicketsAttrs): Promise<UserDoc>;
+  buildTickets(attrs: TicketsAttrs): Promise<TicketsDoc>;
 }
 
 const ticketSchema = new mongoose.Schema(

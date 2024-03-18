@@ -1,11 +1,9 @@
-import express, { Request, Response } from "express";
-import {
-  requireAuth,
-  requestValidator,
-  currentUser,
-} from "@m0ticketing/common";
 import { body } from "express-validator";
 import { Ticket } from "../../model/tickets";
+import { natsWrapper } from "../../natsWrapper";
+import express, { Request, Response } from "express";
+import { requireAuth, requestValidator } from "@m0ticketing/common";
+import { TicketCreatedPublisher } from "../events/publisher/TicketCreatedPublisher";
 
 const router = express.Router();
 
@@ -31,6 +29,13 @@ router.post(
       userId: id,
     });
 
-    res.status(201).json({ status: "succcess", json: newTicket });
+    new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: newTicket.id,
+      price: newTicket.price,
+      title: newTicket.title,
+      userId: newTicket.userId,
+    });
+
+    res.status(201).json({ status: "success", json: newTicket });
   }
 );
