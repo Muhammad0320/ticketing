@@ -4,9 +4,9 @@ import nats from "node-nats-streaming";
 class NatsWrapper {
   private _client?: Stan;
 
-  client() {
+  get client() {
     if (!this._client) {
-      throw new Error(" Nats client not connected ");
+      throw new Error(" Cannot access NATS client befire initialization ");
     }
 
     return this._client;
@@ -16,13 +16,13 @@ class NatsWrapper {
     this._client = nats.connect(clusterId, clientId, { url });
 
     return new Promise((resolve, reject) => {
-      this.client().on("connect", () => {
+      this.client.on("connect", () => {
         console.log("Connected to NATS");
 
         resolve();
       });
 
-      this.client().on("error", (error: any) => {
+      this.client.on("error", (error: any) => {
         console.log("Unable to connect to NATS ");
 
         reject(error);
