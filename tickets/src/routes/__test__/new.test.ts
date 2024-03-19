@@ -3,8 +3,6 @@ import supertest from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../../model/tickets";
 
-jest.mock("../../../natsWapper");
-
 it("has a route handler of /api/tickets listening for post request", async () => {
   const response = await supertest(app).post(`/api/tickets`).send({});
 
