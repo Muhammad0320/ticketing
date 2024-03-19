@@ -1,6 +1,7 @@
 import { natsWrapper } from "../natsWrapper";
 import { app } from "./app";
 import mongoose from "mongoose";
+import { TickedCreatedListener } from "../../nats-test/events/TicketCreatedListener";
 
 const port = 3000;
 const start = async () => {
@@ -14,6 +15,8 @@ const start = async () => {
 
   try {
     await natsWrapper.connect("ticketing", "shitt", "http://nats-srv:4222");
+
+    new TickedCreatedListener(natsWrapper.client).listen();
 
     natsWrapper.client.on("close", () => {
       console.log("NATS connection close!");
