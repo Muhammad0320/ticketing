@@ -12,6 +12,18 @@ const start = async () => {
     throw new Error("No mongo uri found");
   }
 
+  if (!process.env.NATS_URL) {
+    throw new Error("No NATS_URL found");
+  }
+
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error("No NATS_CLUSTER_ID found");
+  }
+
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error("No NATS_CLIENT_ID)  found");
+  }
+
   try {
     await natsWrapper.connect("ticketing", "shitt", "http://nats-srv:4222");
 
