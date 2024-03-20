@@ -6,4 +6,4 @@ router.get("/", (req: Request, res: Response) => {
   res.send({});
 });
 
-export { router as indexRouter };
+export { router as indexOrderRouter };
