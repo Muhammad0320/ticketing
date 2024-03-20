@@ -2,7 +2,7 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 
-import { NotFound, errorHandler } from "@m0ticketing/common";
+import { NotFound, currentUser, errorHandler } from "@m0ticketing/common";
 import { indexRouter } from "./routes";
 import { updateTicketRouter } from "./routes/update";
 import { newTicketRouter } from "./routes/newTickets";
@@ -23,6 +23,8 @@ app.use(
 );
 
 console.log("Hi mom");
+
+app.use(currentUser);
 
 const rootUrl = "/api/tickets";
 
