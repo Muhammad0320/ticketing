@@ -25,6 +25,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: us.gcr.io/innate-algebra-414708/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     - image: us.gcr.io/innate-algebra-414708/client
       context: client
       docker:
