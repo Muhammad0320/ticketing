@@ -39,3 +39,5 @@ router.post(
     res.status(201).json({ status: "success", json: newTicket });
   }
 );
+
+export { router as newTicketRouter };
