@@ -1,12 +1,11 @@
 import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
-import { NotFound } from "./errors/NotFound";
 import { signupRouter } from "./routes/signup";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { currentUserRouter } from "./routes/currentUser";
-import { errorHandler } from "./middlewares/errorHandler";
+import { NotFound, errorHandler } from "@m0ticketing/common";
 
 const app = express();
 
