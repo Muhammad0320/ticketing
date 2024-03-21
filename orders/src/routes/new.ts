@@ -11,6 +11,8 @@ import mongoose from "mongoose";
 import { Order } from "../model/order";
 import { Ticket } from "../model/tickets";
 
+const EXPIRATION_WINDOWS_TIMEOUT = 15 * 60;
+
 const router = express.Router();
 
 router.post(
@@ -39,7 +41,24 @@ router.post(
       throw new BadRequestError("This Ticket is already reserved");
     }
 
-    res.send({});
+    const expiration = new Date();
+
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOWS_TIMEOUT);
+
+    // Build the Order
+
+    const order = await Order.build({
+      ticket,
+      userId: req.currentUser!.id,
+      expiresAt: expiration,
+      status: OrderStatus.Created,
+    });
+
+    res.status(201).json({
+      status: "success",
+
+      data: order,
+    });
   }
 );
 
