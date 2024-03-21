@@ -1,17 +1,18 @@
 import { OrderStatus } from "@m0ticketing/common";
 import mongoose from "mongoose";
+import { TicketDoc } from "./tickets";
 
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
-  ticket: "Ticket";
+  ticket: TicketDoc;
 }
 
 type OrderDoc = mongoose.Document & OrderAttrs;
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
-  build(attrs: OrderAttrs): OrderDoc;
+  build(attrs: OrderAttrs): Promise<OrderDoc>;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -49,5 +50,9 @@ const orderSchema = new mongoose.Schema(
 );
 
 const Order = mongoose.model<OrderDoc, OrderModel>("Order", orderSchema);
+
+orderSchema.statics.build = async function (attrs: OrderAttrs) {
+  await Order.create(attrs);
+};
 
 export { Order };
