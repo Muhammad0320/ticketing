@@ -33,19 +33,9 @@ router.post(
       throw new NotFound();
     }
 
-    const existingOrder = await Order.findOne({
-      ticket,
+    const isReserved = await ticket.isReserved();
 
-      status: {
-        $in: [
-          OrderStatus.AwaitingPayment,
-          OrderStatus.Created,
-          OrderStatus.completed,
-        ],
-      },
-    });
-
-    if (existingOrder) {
+    if (isReserved) {
       throw new BadRequestError("This Ticket is already reserved");
     }
 
