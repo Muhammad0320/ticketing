@@ -1,5 +1,6 @@
 import {
   BadRequestError,
+  NotFound,
   OrderStatus,
   requestValidator,
   requireAuth,
@@ -8,6 +9,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import mongoose from "mongoose";
 import { Order } from "../model/order";
+import { Ticket } from "../model/tickets";
 
 const router = express.Router();
 
@@ -23,7 +25,13 @@ router.post(
   ],
   requestValidator,
   async (req: Request, res: Response) => {
-    const { ticket } = req.params;
+    const { ticketId } = req.params;
+
+    const ticket = await Ticket.findById(ticketId);
+
+    if (!ticket) {
+      throw new NotFound();
+    }
 
     const existingOrder = await Order.findOne({
       ticket,
