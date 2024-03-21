@@ -1,7 +1,13 @@
-import { requestValidator, requireAuth } from "@m0ticketing/common";
+import {
+  BadRequestError,
+  OrderStatus,
+  requestValidator,
+  requireAuth,
+} from "@m0ticketing/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import mongoose from "mongoose";
+import { Order } from "../model/order";
 
 const router = express.Router();
 
@@ -16,7 +22,25 @@ router.post(
       .withMessage("Valid ticketId must be provided"),
   ],
   requestValidator,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
+    const { ticket } = req.params;
+
+    const existingOrder = await Order.findOne({
+      ticket,
+
+      status: {
+        $in: [
+          OrderStatus.AwaitingPayment,
+          OrderStatus.Created,
+          OrderStatus.completed,
+        ],
+      },
+    });
+
+    if (existingOrder) {
+      throw new BadRequestError("This Ticket is already reserved");
+    }
+
     res.send({});
   }
 );
