@@ -27,7 +27,7 @@ it("fetches order for a particular user", async () => {
     .send({ ticket: ticketTwo })
     .expect(201);
 
-  const { body: orderOnorderTwo } = await supertest(app)
+  const { body: orderTwo } = await supertest(app)
     .post("/api/orders")
     .set("Cookie", cookieTwo)
     .send({ ticket: ticketThree })
@@ -37,4 +37,14 @@ it("fetches order for a particular user", async () => {
     .get("/api/orders")
     .set("Cookie", cookieTwo)
     .send({});
+
+  expect(response.body.length).toEqual(2);
+
+  expect(response.body[0].id).toEqual(orderOne.id);
+
+  expect(response.body[1].id).toEqual(orderTwo.id);
+
+  expect(response.body[0].ticket.id).toEqual(ticketTwo.id);
+
+  expect(response.body[1].ticket.id).toEqual(ticketThree.id);
 });
