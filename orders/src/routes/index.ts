@@ -5,7 +5,9 @@ import express, { Request, Response } from "express";
 const router = express.Router();
 
 router.get("/", requireAuth, async (req: Request, res: Response) => {
-  const orders = await Order.find({ ticket: req.currentUser!.id });
+  const orders = await Order.find({ ticket: req.currentUser!.id }).populate(
+    "ticket"
+  );
 
   res.status(200).json({
     status: "success",
