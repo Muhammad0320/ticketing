@@ -3,7 +3,7 @@ import { Ticket } from "../../model/tickets";
 import { app } from "../../app";
 
 const ticketBuilder = async () => {
-  return await Ticket.create({ price: 20, title: "Football game" });
+  return await Ticket.build({ price: 20, title: "Football game" });
 };
 
 it("fetches order for a particular user", async () => {
