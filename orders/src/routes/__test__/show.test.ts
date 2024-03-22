@@ -22,4 +22,26 @@ it("returns an error if a user tries to get anpther user's order", async () => {
     .expect(401);
 });
 
-it("shows an order from the current user orders", async () => {});
+it("shows an order from the current user orders", async () => {
+  const user = global.signin();
+
+  const ticket = await supertest(app)
+    .post("/api/tickets")
+    .set("Cookie", global.signin())
+    .send({ price: 40, title: "shit shit " })
+    .expect(201);
+
+  const order = await supertest(app)
+    .post("/api/orders")
+    .set("Cookie", user)
+    .send({ ticket: ticket.body.id })
+    .expect(201);
+
+  const { body: response } = await supertest(app)
+    .get(`/api/orders/${order.body.id}`)
+    .set("Cookie", user)
+    .send({})
+    .expect(200);
+
+  expect(response.id).toEqual(order.body.id);
+});
