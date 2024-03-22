@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import supertest from "supertest";
 import { app } from "../../app";
+import supertest from "supertest";
 import { Ticket } from "../../model/tickets";
 import { Order, OrderStatus } from "../../model/order";
 
