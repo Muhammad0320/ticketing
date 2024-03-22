@@ -36,7 +36,8 @@ it("fetches order for a particular user", async () => {
   const response = await supertest(app)
     .get("/api/orders")
     .set("Cookie", cookieTwo)
-    .send({});
+    .send({})
+    .expect(200);
 
   expect(response.body.length).toEqual(2);
 
