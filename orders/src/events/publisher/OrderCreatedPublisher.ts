@@ -1,9 +1,9 @@
 import {
   BasePublisher,
   Subjects,
-  OrderCreatedEvent as OrderCreatedEventType,
+  OrderCreatedEvent,
 } from "@m0ticketing/common";
 
-export class OrderCreatedPublisher extends BasePublisher<OrderCreatedEventType> {
+export class OrderCreatedPublisher extends BasePublisher<OrderCreatedEvent> {
   readonly subjects = Subjects.OrderCreated;
 }
