@@ -1,7 +1,7 @@
 import { Subjects } from "./subjects";
 import { OrderStatus } from "./types/OrderStatus";
 
-export interface OrderCreated {
+export interface OrderCreatedEvent {
   subject: Subjects.OrderCreated;
 
   data: {
