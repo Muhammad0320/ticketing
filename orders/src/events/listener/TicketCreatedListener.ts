@@ -11,5 +11,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 
   queueGroupName = "TicketCreated";
 
-  onMesage(data: TicketUpdatedEvent["data"], msg: Message) {}
+  onMesage(data: TicketUpdatedEvent["data"], msg: Message) {
+    const { id, title, price } = data;
+  }
 }
