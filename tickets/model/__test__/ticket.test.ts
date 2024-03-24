@@ -32,5 +32,25 @@ it("implements an optimistic consurrency control ", async () => {
 
   // expect an error for sure !
 
-  throw new Error("The code must not react here");
+  throw new Error(" Must not react this point");
+});
+
+it("increases version number on multiple saves", async () => {
+  const ticket = await Ticket.buildTickets({
+    price: 20,
+    title: "Ticket",
+    userId: "shitttt",
+  });
+
+  expect(ticket.version).toEqual(0);
+
+  ticket.set({ price: 10 });
+
+  await ticket.save();
+
+  expect(ticket.version).toEqual(1);
+
+  await ticket.save();
+
+  expect(ticket.version).toEqual(2);
 });
