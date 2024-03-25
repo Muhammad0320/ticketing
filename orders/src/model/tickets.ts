@@ -7,12 +7,12 @@ interface TicketAttrs {
   id: string;
 
   title: string;
+  version: number;
 }
 
 export type TicketDoc = mongoose.Document &
   TicketAttrs & {
     isReserved(): Promise<Boolean>;
-    version: number;
   };
 
 interface TicketModel extends mongoose.Model<TicketDoc> {

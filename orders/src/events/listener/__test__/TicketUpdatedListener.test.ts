@@ -12,6 +12,7 @@ const setup = async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 99,
+    version: 0,
   });
 
   const data: TicketUpdatedEvent["data"] = {

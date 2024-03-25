@@ -10,7 +10,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   async onMesage(data: TicketCreatedEvent["data"], msg: Message) {
     const { id, title, price } = data;
 
-    await Ticket.build({ id, title, price });
+    await Ticket.build({ id, title, price, version: 0 });
 
     msg.ack();
   }

@@ -10,13 +10,13 @@ interface OrderAttrs {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  version: number;
 }
 
 type OrderDoc = mongoose.Document & OrderAttrs;
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): Promise<OrderDoc>;
-  version: number;
 }
 
 const orderSchema = new mongoose.Schema(
