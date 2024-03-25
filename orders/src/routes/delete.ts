@@ -29,6 +29,7 @@ router.delete("/:orderId", async (req: Request, res: Response) => {
     id: order.id,
     status: order.status,
     ticket: { id: order.ticket.id },
+    version: order.version;
   });
 
   res.status(204).json("success");

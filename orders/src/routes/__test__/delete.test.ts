@@ -1,11 +1,16 @@
+import { app } from "../../app";
 import supertest from "supertest";
 import { Ticket } from "../../model/tickets";
-import { app } from "../../app";
 import { OrderStatus } from "../../model/order";
 import { natsWrapper } from "../../../natsWrapper";
+import mongoose from "mongoose";
 
 it("cancells an order", async () => {
-  const ticket = await Ticket.build({ price: 99, title: "Hajj" });
+  const ticket = await Ticket.build({
+    price: 99,
+    title: "Hajj",
+    id: new mongoose.Types.ObjectId().toHexString(),
+  });
 
   const user = global.signin();
 
@@ -31,7 +36,11 @@ it("cancells an order", async () => {
 });
 
 it("emits an event when order is cancelled", async () => {
-  const ticket = await Ticket.build({ price: 999, title: "Hajj" });
+  const ticket = await Ticket.build({
+    price: 999,
+    title: "Hajj",
+    id: new mongoose.Types.ObjectId().toHexString(),
+  });
 
   const user = global.signin();
 

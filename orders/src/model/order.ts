@@ -15,8 +15,8 @@ interface OrderAttrs {
 type OrderDoc = mongoose.Document & OrderAttrs;
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
-  version: number;
   build(attrs: OrderAttrs): Promise<OrderDoc>;
+  version: number;
 }
 
 const orderSchema = new mongoose.Schema(
