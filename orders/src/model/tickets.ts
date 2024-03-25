@@ -5,7 +5,6 @@ import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 interface TicketAttrs {
   price: number;
   id: string;
-  version: number;
 
   title: string;
 }
@@ -25,8 +24,6 @@ const ticketSchema = new mongoose.Schema({
     type: String,
     required: [true, "Tickets must have a title"],
   },
-
-  version: Number,
 
   price: {
     type: String,
