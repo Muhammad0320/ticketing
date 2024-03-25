@@ -1,9 +1,4 @@
-import {
-  Listener,
-  Subjects,
-  TicketCreatedEvent,
-  TicketUpdatedEvent,
-} from "@m0ticketing/common";
+import { Listener, Subjects, TicketCreatedEvent } from "@m0ticketing/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../model/tickets";
 
@@ -12,10 +7,10 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 
   queueGroupName = "TicketCreated";
 
-  async onMesage(data: TicketUpdatedEvent["data"], msg: Message) {
-    const { id, title, price, version } = data;
+  async onMesage(data: TicketCreatedEvent["data"], msg: Message) {
+    const { id, title, price } = data;
 
-    await Ticket.build({ id, title, price, version });
+    await Ticket.build({ id, title, price });
 
     msg.ack();
   }
