@@ -10,6 +10,7 @@ it("cancells an order", async () => {
     price: 99,
     title: "Hajj",
     id: new mongoose.Types.ObjectId().toHexString(),
+    version: 0,
   });
 
   const user = global.signin();
@@ -40,6 +41,7 @@ it("emits an event when order is cancelled", async () => {
     price: 999,
     title: "Hajj",
     id: new mongoose.Types.ObjectId().toHexString(),
+    version: 0,
   });
 
   const user = global.signin();

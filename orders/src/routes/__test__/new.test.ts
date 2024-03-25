@@ -20,6 +20,7 @@ it("returns an error if the ticket is alrealy reserved", async () => {
     title: "convcert",
     price: 33,
     id: new mongoose.Types.ObjectId().toHexString(),
+    version: 0,
   });
 
   await Order.build({
@@ -27,6 +28,7 @@ it("returns an error if the ticket is alrealy reserved", async () => {
     status: OrderStatus.Created,
     userId: "nrjnrignrigr",
     expiresAt: new Date(),
+    version: 0,
   });
 
   await supertest(app)
@@ -41,6 +43,7 @@ it("reserves a ticket", async () => {
     price: 20,
     title: "football",
     id: new mongoose.Types.ObjectId().toHexString(),
+    version: 0,
   });
 
   await supertest(app)
@@ -55,6 +58,7 @@ it("emits an order created event", async () => {
     title: "convcert",
     price: 33,
     id: new mongoose.Types.ObjectId().toHexString(),
+    version: 0,
   });
 
   await supertest(app)

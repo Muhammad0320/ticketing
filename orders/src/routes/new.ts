@@ -54,6 +54,7 @@ router.post(
       userId: req.currentUser!.id,
       expiresAt: expiration,
       status: OrderStatus.Created,
+      version: 0,
     });
 
     // Publisher order created event
