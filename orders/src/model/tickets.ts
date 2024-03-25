@@ -17,6 +17,10 @@ export type TicketDoc = mongoose.Document &
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attrs: TicketAttrs): Promise<TicketDoc>;
+  findByEvent(event: {
+    _id: string;
+    version: number;
+  }): Promise<TicketDoc | null>;
 }
 
 const ticketSchema = new mongoose.Schema({
@@ -40,6 +44,11 @@ const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 ticketSchema.statics.build = async function (attrs: TicketAttrs) {
   await Ticket.create({ _id: attrs.id, ...attrs });
 };
+
+ticketSchema.statics.findByEvent = async function (event: {
+  _id: string;
+  version: number;
+}) {};
 
 ticketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({
