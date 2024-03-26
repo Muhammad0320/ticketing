@@ -8,11 +8,10 @@ interface TicketsAttrs {
 }
 
 interface TicketsDoc extends mongoose.Document {
-  userId: string;
   title: string;
   price: number;
+  userId: string;
   version: number;
-
   orderId: string;
 }
 
