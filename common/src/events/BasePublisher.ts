@@ -9,7 +9,7 @@ interface Events {
 export abstract class BasePublisher<T extends Events> {
   abstract subjects: T["subjects"];
 
-  private client: Stan;
+  protected client: Stan;
 
   constructor(client: Stan) {
     this.client = client;
