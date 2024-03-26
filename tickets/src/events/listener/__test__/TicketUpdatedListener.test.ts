@@ -1,0 +1,66 @@
+import mongoose from "mongoose";
+import { natsWrapper } from "../../../../natsWrapper";
+
+import { TicketUpdatedListener } from "../TicketUpdatedListener";
+import { TicketUpdatedEvent } from "@m0ticketing/common";
+import { Message } from "node-nats-streaming";
+import { Ticket } from "../../../../model/tickets";
+
+const setup = async () => {
+  const listener = new TicketUpdatedListener(natsWrapper.client);
+
+  const ticket = await Ticket.buildTickets({
+    title: "concert",
+    price: 99,
+    userId: new mongoose.Types.ObjectId().toHexString(),
+  });
+
+  const data: TicketUpdatedEvent["data"] = {
+    price: 999,
+    id: ticket.id,
+    version: ticket.version + 1,
+    title: "new concert",
+    userId: "shitttt",
+  };
+
+  // @ts-ignore
+  const msg: Message = {
+    ack: jest.fn(),
+  };
+
+  return { listener, ticket, data, msg };
+};
+
+it("finds update and saves a ticket", async () => {
+  const { msg, listener, ticket, data } = await setup();
+
+  const updatedTicket = await Ticket.findById(ticket.id);
+
+  await listener.onMesage(data, msg);
+
+  expect(updatedTicket?.version).toEqual(ticket.version);
+
+  expect(updatedTicket?.title).toEqual(ticket.title);
+
+  expect(updatedTicket!.price).toEqual(ticket.price);
+});
+
+it("acks the messge", async () => {
+  const { msg, listener, data } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
+
+it("does not ack the message, when the succeeding version is skipped", async () => {
+  const { msg, listener, data } = await setup();
+
+  data.version = 8;
+
+  try {
+    await listener.onMesage(data, msg);
+  } catch (error) {}
+
+  expect(msg.ack).not.toHaveBeenCalled();
+});
