@@ -22,9 +22,9 @@ const setup = async () => {
 
     version: 0,
     ticket: {
-      id: new mongoose.Types.ObjectId().toHexString(),
+      id: ticket.id,
 
-      price: 99,
+      price: ticket.price,
     },
   };
 
