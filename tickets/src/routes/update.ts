@@ -1,4 +1,5 @@
 import {
+  BadRequestError,
   NotAuthorized,
   NotFound,
   requestValidator,
@@ -30,6 +31,10 @@ router.put(
       throw new NotFound();
     }
 
+    if (tickets.orderId) {
+      throw new BadRequestError("This ticket is reserved, come back later");
+    }
+
     if (tickets.userId !== req.currentUser.id) {
       throw new NotAuthorized();
     }
@@ -46,6 +51,7 @@ router.put(
       title: tickets.title,
       price: tickets.price,
       userId: tickets.userId,
+      version: tickets.version,
     });
 
     res.status(200).json({ tickets });
