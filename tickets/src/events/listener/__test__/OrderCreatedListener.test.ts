@@ -60,4 +60,10 @@ it("publishes a ticket updated event", async () => {
   await listener.onMesage(data, msg);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
+
+  const updatedTicket = JSON.parse(
+    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+  );
+
+  expect(updatedTicket.orderId).toEqual(data.id);
 });
