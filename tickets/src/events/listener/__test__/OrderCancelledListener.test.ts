@@ -16,6 +16,10 @@ const setup = async () => {
     title: "concert",
   });
 
+  ticket.set({ orderId: orderId });
+
+  await ticket.save();
+
   const data: OrderCancelledEvent["data"] = {
     id: orderId,
     version: 0,
@@ -33,5 +37,13 @@ const setup = async () => {
 };
 
 it("cretes , updated and published a ticket updated event", async () => {
-  const { listener, orderId, ticket, data } = await setup();
+  const { listener, orderId, ticket, data, msg } = await setup();
+
+  const updatedTicket = await Ticket.findById(data.ticket.id);
+
+  await listener.onMesage(data, msg);
+
+  expect(updatedTicket?.orderId).not.toBeDefined();
+  expect(msg.ack).toHaveBeenCalled();
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
