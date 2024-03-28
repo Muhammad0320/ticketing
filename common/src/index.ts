@@ -18,7 +18,7 @@ export * from "./events/subjects";
 
 export * from "./events/types/OrderStatus";
 
+export * from "./events/ExpirationCompletedEvent";
+
 export * from "./events/OrderCreated";
 export * from "./events/Ordercancelled";
-
-export * from "./events/ExpirationCompleteEvent";
