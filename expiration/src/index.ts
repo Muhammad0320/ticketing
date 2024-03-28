@@ -1,6 +1,6 @@
+import { OrderCreatedListener } from "../events/listener/OrderCreatedListener";
 import { natsWrapper } from "../natsWrapper";
 
-const port = 3000;
 const start = async () => {
   if (!process.env.NATS_URL) {
     throw new Error("No NATS_URL found");
@@ -21,7 +21,7 @@ const start = async () => {
       process.env.NATS_URL
     );
 
-    // new TickedCreatedListener(natsWrapper.client).listen();
+    new OrderCreatedListener(natsWrapper.client);
 
     natsWrapper.client.on("close", () => {
       console.log("NATS connection close!");
