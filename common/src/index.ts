@@ -21,4 +21,4 @@ export * from "./events/types/OrderStatus";
 export * from "./events/OrderCreated";
 export * from "./events/Ordercancelled";
 
-export * from "./events/expirationCompleteEvent";
+export * from "./events/ExpirationCompleteEvent";
