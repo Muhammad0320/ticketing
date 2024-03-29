@@ -37,5 +37,15 @@ const setup = async () => {
     ack: jest.fn(),
   };
 
-  return { listener, ticket, order, data, msg };
+  return { listener, order, data, msg };
 };
+
+it("update the order status", async () => {
+  const { listener, order, data, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  const updatedOrder = await Order.findById(order.id);
+
+  expect(updatedOrder?.id).toEqual(order.id);
+});
