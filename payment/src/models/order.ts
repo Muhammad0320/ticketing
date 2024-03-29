@@ -11,3 +11,20 @@ type OrderAttrs = {
 type OrderDocs = mongoose.Document & OrderAttrs;
 
 interface OrderModel extends mongoose.Model<OrderDocs> {}
+
+const orderSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: [true, "An order must belong to a user"],
+  },
+
+  price: {
+    type: Number,
+    required: [true, "An order have a price"],
+  },
+
+  status: {
+    type: String,
+    required: [true, "An order must have a status"],
+  },
+});
