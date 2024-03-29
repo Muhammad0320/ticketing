@@ -34,7 +34,7 @@ const setup = async () => {
   return { listener, msg, order, data };
 };
 
-it("created an OrderCreatedEvent listener", async () => {
+it("create an OrderCreatedEvent listener", async () => {
   const { listener, data, order, msg } = await setup();
 
   await listener.onMesage(data, msg);
@@ -42,4 +42,12 @@ it("created an OrderCreatedEvent listener", async () => {
   const updatedOrder = await Order.findById(order.id); //
 
   expect(updatedOrder?.id).toEqual(order.id);
+});
+
+it("acks the message", async () => {
+  const { listener, data, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
 });
