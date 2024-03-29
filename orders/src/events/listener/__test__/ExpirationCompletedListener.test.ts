@@ -63,3 +63,11 @@ it("publishes an order cancelled event", async () => {
 
   expect(eventData.id).toEqual(order.id);
 });
+
+it("acks the message", async () => {
+  const { listener, data, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
