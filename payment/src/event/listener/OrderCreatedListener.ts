@@ -4,9 +4,8 @@ import {
   OrderStatus,
   Subjects,
 } from "@m0ticketing/common";
-import { Message } from "node-nats-streaming";
 import { Order } from "../../models/order";
-import mongoose from "mongoose";
+import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queueGroupName";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
@@ -16,10 +15,10 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
   async onMesage(data: OrderCreatedEvent["data"], msg: Message) {
     await Order.buildOrder({
-      userId: new mongoose.Types.ObjectId().toHexString(),
-      version: 0,
+      userId: data.userId,
+      version: data.version,
       price: data.ticket.price,
-      status: OrderStatus.Created,
+      status: data.status,
       id: data.id,
     });
 
