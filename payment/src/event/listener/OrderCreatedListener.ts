@@ -20,6 +20,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       version: 0,
       price: data.ticket.price,
       status: OrderStatus.Created,
+      id: data.id,
     });
 
     msg.ack();

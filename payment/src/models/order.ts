@@ -9,10 +9,12 @@ type OrderAttrs = {
   status: OrderStatus;
 };
 
+type OrderAttrsWId = OrderAttrs & { id: string };
+
 type OrderDocs = mongoose.Document & OrderAttrs;
 
 interface OrderModel extends mongoose.Model<OrderDocs> {
-  buildOrder(attrs: OrderAttrs): Promise<OrderDocs>;
+  buildOrder(attrs: OrderAttrsWId): Promise<OrderDocs>;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -47,7 +49,7 @@ orderSchema.set("versionKey", "version");
 orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.buildOrder = async (
-  attrs: OrderAttrs & { id: string }
+  attrs: OrderAttrsWId
 ): Promise<OrderDocs> => {
   return await Order.create({
     _id: attrs.id,
