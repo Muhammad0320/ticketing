@@ -6,7 +6,7 @@ import { OrderCreatedEvent, OrderStatus } from "@m0ticketing/common";
 import { Message } from "node-nats-streaming";
 
 const setup = async () => {
-  const listenenr = new OrderCreatedListener(natsWrapper.client);
+  const listener = new OrderCreatedListener(natsWrapper.client);
 
   const data: OrderCreatedEvent["data"] = {
     id: new mongoose.Types.ObjectId().toHexString(),
@@ -31,5 +31,15 @@ const setup = async () => {
     ack: jest.fn(),
   };
 
-  return { listenenr, msg, order, data };
+  return { listener, msg, order, data };
 };
+
+it("created an OrderCreatedEvent listener", async () => {
+  const { listener, data, order, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  const updatedOrder = await Order.findById(order.id); //
+
+  expect(updatedOrder?.id).toEqual(order.id);
+});
