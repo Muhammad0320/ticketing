@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tickets-mongo-depl
+  name: payments-mongo-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tickets-mongo
+      app: payments-mongo
   template:
     metadata:
       labels:
-        app: tickets-mongo
+        app: payments-mongo
     spec:
       containers:
         - name: db
@@ -20,12 +20,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tickets-mongo-srv
+  name: payments-mongo-srv
 spec:
   selector:
-    app: tickets-mongo
+    app: payments-mongo
   ports:
-    - name: tickets-mongo
+    - name: payments-mongo
       protocol: TCP
       port: 27017
       targetPort: 27017
