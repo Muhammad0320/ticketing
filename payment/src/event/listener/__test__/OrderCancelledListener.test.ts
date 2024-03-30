@@ -45,3 +45,11 @@ it("updates order status to cancelled", async () => {
   expect(updatedOrder!.price).toEqual(order.price);
   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
+
+it("acks the message", async () => {
+  const { listener, order, data, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
