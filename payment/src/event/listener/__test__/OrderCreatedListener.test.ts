@@ -17,31 +17,23 @@ const setup = async () => {
     expiresAt: new Date().toISOString(),
   };
 
-  const order = await Order.buildOrder({
-    id: data.id,
-    version: data.version,
-    userId: data.userId,
-    price: data.ticket.price,
-    status: data.status,
-  });
-
   // @ts-ignore
 
   const msg: Message = {
     ack: jest.fn(),
   };
 
-  return { listener, msg, order, data };
+  return { listener, msg, data };
 };
 
 it("create an OrderCreatedEvent listener", async () => {
-  const { listener, data, order, msg } = await setup();
+  const { listener, data, msg } = await setup();
 
   await listener.onMesage(data, msg);
 
-  const updatedOrder = await Order.findById(order.id); //
+  const updatedOrder = await Order.findById(data.id); //
 
-  expect(updatedOrder?.id).toEqual(order.id);
+  expect(updatedOrder?.id).toEqual(data.id);
 });
 
 it("acks the message", async () => {
