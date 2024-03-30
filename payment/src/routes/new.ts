@@ -44,7 +44,7 @@ router.post(
       currency: "usd",
     });
 
-    res.json({ status: 200, data: { status: "success" } });
+    res.json({ status: 201, data: { status: "success" } });
   }
 );
 
