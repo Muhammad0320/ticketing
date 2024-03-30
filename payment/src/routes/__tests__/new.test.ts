@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { OrderStatus } from "@m0ticketing/common";
 import { Order } from "../../models/order";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payment";
 
 jest.mock("../../__mocks__/stripe.ts");
 
@@ -82,4 +83,11 @@ it("returns a 201 when user purchase with valis inputs", async () => {
   expect(chargeOption.source).toEqual("tok_visa");
   expect(chargeOption.amount).toEqual(99 * 100);
   expect(chargeOption.currency).toEqual("usd");
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: chargeOption!.id,
+  });
+
+  expect(payment).not.toBeNull();
 });
