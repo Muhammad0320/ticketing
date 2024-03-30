@@ -8,23 +8,23 @@ import { Message } from "node-nats-streaming";
 const setup = async () => {
   const listener = new OrderCancelledListener(natsWrapper.client);
 
-  const data: OrderCancelledEvent["data"] = {
-    id: new mongoose.Types.ObjectId().toHexString(),
-    status: OrderStatus.Cancelled,
-    version: 0,
-    ticket: {
-      id: "string",
-    },
-  };
-
   const order = await Order.buildOrder({
-    id: data.id,
+    id: new mongoose.Types.ObjectId().toHexString(),
 
-    version: data.version,
+    version: 0,
     userId: "shitt",
     price: 33,
     status: OrderStatus.Created,
   });
+
+  const data: OrderCancelledEvent["data"] = {
+    id: order.id,
+    status: OrderStatus.Cancelled,
+    version: 1,
+    ticket: {
+      id: "string",
+    },
+  };
 
   // @ts-ignore
 
@@ -34,3 +34,14 @@ const setup = async () => {
 
   return { listener, order, data, msg };
 };
+
+it("updates order status to cancelled", async () => {
+  const { listener, order, data, msg } = await setup();
+
+  await listener.onMesage(data, msg);
+
+  const updatedOrder = await Order.findById(order.id); //
+
+  expect(updatedOrder!.price).toEqual(order.price);
+  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
+});
