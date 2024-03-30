@@ -39,7 +39,7 @@ router.post(
     }
 
     await stripe.charges.create({
-      source: "token",
+      source: token,
       amount: order.price * 100,
       currency: "usd",
     });
