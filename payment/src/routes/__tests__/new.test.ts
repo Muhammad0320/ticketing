@@ -77,5 +77,9 @@ it("returns a 201 when user purchase with valis inputs", async () => {
     .send({ token: "tok_visa", orderId: order.id })
     .expect(201);
 
-  const chargeOption = (stripe.charges.create as jest.Mock).mock.calls[0][1];
+  const chargeOption = (stripe.charges.create as jest.Mock).mock.calls[0][0];
+
+  expect(chargeOption.source).toEqual("tok_visa");
+  expect(chargeOption.amount).toEqual(99 * 100);
+  expect(chargeOption.currency).toEqual("usd");
 });
