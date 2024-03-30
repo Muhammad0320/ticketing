@@ -9,6 +9,7 @@ import {
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Order } from "../models/order";
+import { stripe } from "../stripe";
 
 const router = express.Router();
 
@@ -36,6 +37,12 @@ router.post(
     if (order.userId !== req.currentUser!.id) {
       throw new NotAuthorized();
     }
+
+    await stripe.charges.create({
+      source: "token",
+      amount: order.price * 100,
+      currency: "usd",
+    });
 
     res.json({ status: 200, data: { status: "success" } });
   }
