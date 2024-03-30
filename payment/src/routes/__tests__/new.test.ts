@@ -3,6 +3,9 @@ import { app } from "../../app";
 import mongoose from "mongoose";
 import { OrderStatus } from "@m0ticketing/common";
 import { Order } from "../../models/order";
+import { stripe } from "../../stripe";
+
+jest.mock("../../__mocks__/stripe.ts");
 
 it("return a 404 when user tries to pay for an order that doesn't exist", async () => {
   await supertest(app)
@@ -73,4 +76,6 @@ it("returns a 201 when user purchase with valis inputs", async () => {
     .set("Cookie", global.signin(userId))
     .send({ token: "tok_visa", orderId: order.id })
     .expect(201);
+
+  const chargeOption = (stripe.charges.create as jest.Mock).mock.calls[0][1];
 });
