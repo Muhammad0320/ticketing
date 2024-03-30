@@ -56,3 +56,21 @@ it("returns a 400 when purchasing an item with cancelled status", async () => {
     .send({ order: order.id, token: "neifeifeni" })
     .expect(400);
 });
+
+it("returns a 201 when user purchase with valis inputs", async () => {
+  const userId = new mongoose.Types.ObjectId().toHexString();
+
+  const order = await Order.buildOrder({
+    userId,
+    version: 0,
+    price: 99,
+    status: OrderStatus.Created,
+    id: new mongoose.Types.ObjectId().toHexString(),
+  });
+
+  await supertest(app)
+    .post("/api/payments")
+    .set("Cookie", global.signin(userId))
+    .send({ token: "tok_visa", orderId: order.id })
+    .expect(201);
+});
