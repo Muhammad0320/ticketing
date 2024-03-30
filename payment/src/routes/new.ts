@@ -10,6 +10,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Order } from "../models/order";
 import { stripe } from "../stripe";
+import { Payment } from "../models/payment";
 
 const router = express.Router();
 
@@ -38,10 +39,15 @@ router.post(
       throw new NotAuthorized();
     }
 
-    await stripe.charges.create({
+    const stripeResponse = await stripe.charges.create({
       source: token,
       amount: order.price * 100,
       currency: "usd",
+    });
+
+    await Payment.buildPayment({
+      orderId: order.id,
+      stripeId: stripeResponse.id,
     });
 
     res.json({ status: 201, data: { status: "success" } });
