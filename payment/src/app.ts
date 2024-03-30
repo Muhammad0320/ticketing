@@ -3,6 +3,7 @@ import "express-async-errors";
 import cookieSession from "cookie-session";
 
 import { NotFound, currentUser, errorHandler } from "@m0ticketing/common";
+import { paymentRouter } from "./routes/new";
 
 const app = express();
 
@@ -23,6 +24,8 @@ console.log("Hi mom");
 app.use(currentUser);
 
 const rootUrl = "/api/payment";
+
+app.use(rootUrl, paymentRouter);
 
 app.all("*", (req, res) => {
   throw new NotFound();

@@ -40,3 +40,5 @@ router.post(
     res.json({ status: 200, data: { status: "success" } });
   }
 );
+
+export { router as paymentRouter };
